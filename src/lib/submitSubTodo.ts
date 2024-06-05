@@ -13,5 +13,6 @@ export async function submitSubTodo(data: AddTodo, parentID: number) {
   });
   if (res.ok) {
     revalidatePath("/");
+    revalidatePath("/completed");
   }
 }

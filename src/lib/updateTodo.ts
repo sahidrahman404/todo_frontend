@@ -1,11 +1,11 @@
 "use server";
 
-import { AddTodo } from "@/components/todo/AddTodoForm";
+import { UpdateTodo } from "@/components/todo/UpdateTodoForm";
 import { revalidatePath } from "next/cache";
 
-export async function submitTodo(data: AddTodo) {
-  const res = await fetch("http://127.0.0.1:4444/api/v1/todos", {
-    method: "POST",
+export async function updateTodo(data: UpdateTodo, id: number) {
+  const res = await fetch(`http://127.0.0.1:4444/api/v1/todos/${id}`, {
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
