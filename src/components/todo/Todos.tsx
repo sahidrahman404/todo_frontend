@@ -2,7 +2,7 @@ import { fetchWithZod } from "@/lib/utils";
 import { z } from "zod";
 import { TodosRenderer } from "./TodosRenderer";
 
-const todoSchema = z.object({
+export const todoSchema = z.object({
   data: z.array(
     z.object({
       deadline: z
@@ -36,7 +36,7 @@ const todoSchema = z.object({
 export type Todo = z.infer<typeof todoSchema>["data"][0];
 
 export default async function Todos() {
-  const res = fetchWithZod(todoSchema, "http:127.0.0.1:4444/api/v1/todos");
+  const res = fetchWithZod(todoSchema, "http://127.0.0.1:4444/api/v1/todos");
   const todos = await res;
   return <TodosRenderer todos={todos.data} />;
 }
