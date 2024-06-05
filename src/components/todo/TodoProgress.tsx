@@ -18,7 +18,7 @@ export function TodoProgreess({ subTodos }: { subTodos?: Todo[] }) {
         <p>
           {percentage === 100
             ? "Sub todos were completed"
-            : `${completed} / ${total} todos was done`}
+            : `${completed} / ${total} todos were done`}
         </p>
         <Progress value={percentage} />
       </div>
