@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useFormStatus } from "react-dom";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { DatePicker } from "./DatePicker";
 import { useToast } from "../ui/use-toast";
 import { updateTodo } from "@/lib/updateTodo";
@@ -35,7 +35,7 @@ export function UpdateTodoForm({
   todo: Todo;
   id: number;
 }) {
-  const { pending } = useFormStatus();
+  const [loading, setLoading] = useState(false);
   const form = useForm<UpdateTodo>({
     resolver: zodResolver(updateTodoSchema),
     defaultValues: {
@@ -46,6 +46,7 @@ export function UpdateTodoForm({
   const { toast } = useToast();
 
   async function onSubmit(values: UpdateTodo) {
+    setLoading(true);
     await updateTodo(values, id);
     setOpen(false);
     toast({ title: "Todo was updated" });
@@ -81,7 +82,7 @@ export function UpdateTodoForm({
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={loading}>
           Submit
         </Button>
       </form>

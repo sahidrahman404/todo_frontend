@@ -13,8 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { submitTodo } from "@/lib/submitTodo";
-import { useFormStatus } from "react-dom";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { DatePicker } from "./DatePicker";
 import { useToast } from "../ui/use-toast";
 import { submitSubTodo } from "@/lib/submitSubTodo";
@@ -33,7 +32,7 @@ export function AddTodoForm({
   setOpen: Dispatch<SetStateAction<boolean>>;
   parentID?: number;
 }) {
-  const { pending } = useFormStatus();
+  const [loading, setLoading] = useState(false);
   const form = useForm<AddTodo>({
     resolver: zodResolver(addTodoSchema),
     defaultValues: {
@@ -44,6 +43,7 @@ export function AddTodoForm({
   const { toast } = useToast();
 
   async function onSubmit(values: AddTodo) {
+    setLoading(true);
     parentID ? await submitSubTodo(values, parentID) : await submitTodo(values);
     setOpen(false);
     toast({ title: parentID ? "Sub todo was added" : "Todo was added" });
@@ -79,7 +79,7 @@ export function AddTodoForm({
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={loading}>
           Submit
         </Button>
       </form>

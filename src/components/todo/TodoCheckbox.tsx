@@ -16,6 +16,7 @@ export function TodoCheckbox({
   id: number;
   subTodos?: Todo[];
 }) {
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const [completed, setCompleted] = useState(() => isCompleted);
   const disable = subTodos
@@ -27,6 +28,7 @@ export function TodoCheckbox({
     <Checkbox
       className={className}
       checked={completed}
+      disabled={loading}
       onCheckedChange={async (checked) => {
         if (disable) {
           toast({
@@ -35,6 +37,7 @@ export function TodoCheckbox({
           return;
         }
         if (typeof checked === "boolean") {
+          setLoading(true);
           await checkTodo(checked, id);
           setCompleted(checked);
         }
